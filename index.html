@@ -1,0 +1,1066 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Management System</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #f3f6fc;
+    color: #1e293b;
+}
+
+.sidebar {
+    width: 245px;
+    height: 100vh;
+    background: #18243e;
+    color: white;
+    position: fixed;
+    padding: 25px 15px;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    margin: 0 10px 35px;
+    color: #60a5fa;
+}
+
+.logo span {
+    color: white;
+}
+
+.menu-title {
+    font-size: 11px;
+    color: #9baac5;
+    margin: 20px 12px 10px;
+    text-transform: uppercase;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    background: transparent;
+    color: #cbd5e1;
+    border: none;
+    padding: 13px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.sidebar button:hover,
+.sidebar button.active {
+    background: #304466;
+    color: white;
+}
+
+.main {
+    margin-left: 245px;
+    padding: 25px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.topbar h1 {
+    font-size: 26px;
+}
+
+.topbar p {
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.profile {
+    background: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 10px #00000008;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px #00000008;
+}
+
+.card p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.card h2 {
+    font-size: 28px;
+    margin-top: 12px;
+}
+
+.blue { border-top: 4px solid #3b82f6; }
+.green { border-top: 4px solid #10b981; }
+.orange { border-top: 4px solid #f59e0b; }
+.purple { border-top: 4px solid #8b5cf6; }
+
+.panel {
+    background: white;
+    padding: 22px;
+    border-radius: 15px;
+    margin-bottom: 22px;
+    box-shadow: 0 3px 12px #00000008;
+}
+
+.panel h2 {
+    margin-bottom: 18px;
+    font-size: 20px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+input, select {
+    padding: 11px;
+    border: 1px solid #dbe2ed;
+    border-radius: 8px;
+    outline: none;
+    background: white;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    border-color: #3b82f6;
+}
+
+button.primary {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 11px 17px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button.primary:hover {
+    background: #1d4ed8;
+}
+
+button.danger {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+th, td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 14px;
+}
+
+th {
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.badge {
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.form-grid input,
+.form-grid select {
+    width: 100%;
+}
+
+.notice {
+    padding: 14px;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+.empty {
+    padding: 25px;
+    text-align: center;
+    color: #94a3b8;
+}
+
+@media(max-width: 1000px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 700px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px;
+    }
+
+    .logo {
+        margin-bottom: 12px;
+    }
+
+    .sidebar button {
+        display: inline-block;
+        width: auto;
+        padding: 10px;
+    }
+
+    .menu-title {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .topbar h1 {
+        font-size: 21px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="logo">🎓 School<span>Hub</span></div>
+
+    <div class="menu-title">Main Menu</div>
+
+    <button class="active" onclick="showSection('dashboard',this)">
+        🏠 Dashboard
+    </button>
+
+    <button onclick="showSection('students',this)">
+        👨‍🎓 Students
+    </button>
+
+    <button onclick="showSection('teachers',this)">
+        👩‍🏫 Teachers
+    </button>
+
+    <button onclick="showSection('attendance',this)">
+        📋 Attendance
+    </button>
+
+    <button onclick="showSection('fees',this)">
+        💰 Fees
+    </button>
+
+    <button onclick="showSection('results',this)">
+        📝 Exam Results
+    </button>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+    <div class="topbar">
+        <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p>Welcome to your School Management System</p>
+        </div>
+
+        <div class="profile">👤 Admin</div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="section active">
+
+        <div class="cards">
+            <div class="card blue">
+                <p>👨‍🎓 Total Students</p>
+                <h2 id="totalStudents">0</h2>
+            </div>
+
+            <div class="card green">
+                <p>👩‍🏫 Total Teachers</p>
+                <h2 id="totalTeachers">0</h2>
+            </div>
+
+            <div class="card orange">
+                <p>📋 Present Today</p>
+                <h2 id="totalPresent">0</h2>
+            </div>
+
+            <div class="card purple">
+                <p>💰 Fees Collected</p>
+                <h2 id="totalFees">₹0</h2>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>Quick Actions</h2>
+
+            <div class="toolbar">
+                <button class="primary" onclick="showSection('students')">
+                    + Add Student
+                </button>
+
+                <button class="primary" onclick="showSection('teachers')">
+                    + Add Teacher
+                </button>
+
+                <button class="primary" onclick="showSection('attendance')">
+                    Mark Attendance
+                </button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>Recent Students</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Class</th>
+                            <th>Roll No.</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentStudents"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- STUDENTS -->
+    <section id="students" class="section">
+
+        <div class="panel">
+            <h2>Add New Student</h2>
+
+            <form id="studentForm">
+                <div class="form-grid">
+                    <input id="studentName" placeholder="Student Name" required>
+
+                    <input id="studentRoll" placeholder="Roll Number" required>
+
+                    <select id="studentClass" required>
+                        <option value="">Select Class</option>
+                        <option>Class 1</option>
+                        <option>Class 2</option>
+                        <option>Class 3</option>
+                        <option>Class 4</option>
+                        <option>Class 5</option>
+                        <option>Class 6</option>
+                        <option>Class 7</option>
+                        <option>Class 8</option>
+                        <option>Class 9</option>
+                        <option>Class 10</option>
+                        <option>Class 11</option>
+                        <option>Class 12</option>
+                    </select>
+
+                    <input id="studentPhone" placeholder="Parent Phone Number">
+                </div>
+
+                <button class="primary" type="submit">Add Student</button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h2>Student Records</h2>
+
+            <div class="toolbar">
+                <input id="studentSearch"
+                       placeholder="Search student..."
+                       oninput="renderStudents()">
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Roll Number</th>
+                            <th>Class</th>
+                            <th>Phone</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEACHERS -->
+    <section id="teachers" class="section">
+
+        <div class="panel">
+            <h2>Add New Teacher</h2>
+
+            <form id="teacherForm">
+                <div class="form-grid">
+                    <input id="teacherName" placeholder="Teacher Name" required>
+
+                    <input id="teacherSubject" placeholder="Subject" required>
+
+                    <input id="teacherPhone" placeholder="Phone Number">
+
+                    <input id="teacherEmail" type="email" placeholder="Email">
+                </div>
+
+                <button class="primary" type="submit">Add Teacher</button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h2>Teacher Records</h2>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teachersTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ATTENDANCE -->
+    <section id="attendance" class="section">
+
+        <div class="panel">
+            <h2>Student Attendance</h2>
+
+            <div class="notice">
+                Select Present or Absent for each student, then save attendance.
+            </div>
+
+            <div class="toolbar">
+                <input type="date" id="attendanceDate">
+
+                <button class="primary" onclick="renderAttendance()">
+                    Load Students
+                </button>
+
+                <button class="primary" onclick="saveAttendance()">
+                    Save Attendance
+                </button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEES -->
+    <section id="fees" class="section">
+
+        <div class="panel">
+            <h2>Fee Management</h2>
+
+            <form id="feeForm">
+                <div class="form-grid">
+                    <select id="feeStudent" required>
+                        <option value="">Select Student</option>
+                    </select>
+
+                    <input id="feeAmount"
+                           type="number"
+                           min="1"
+                           placeholder="Fee Amount ₹"
+                           required>
+                </div>
+
+                <button class="primary" type="submit">
+                    Record Payment
+                </button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h2>Payment Records</h2>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feesTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results" class="section">
+
+        <div class="panel">
+            <h2>Enter Exam Results</h2>
+
+            <form id="resultForm">
+                <div class="form-grid">
+                    <select id="resultStudent" required>
+                        <option value="">Select Student</option>
+                    </select>
+
+                    <input id="resultSubject" placeholder="Subject" required>
+
+                    <input id="resultMarks"
+                           type="number"
+                           min="0"
+                           max="100"
+                           placeholder="Marks (out of 100)"
+                           required>
+                </div>
+
+                <button class="primary" type="submit">
+                    Save Result
+                </button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h2>Exam Results</h2>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Subject</th>
+                            <th>Marks</th>
+                            <th>Grade</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script>
+// -----------------------------------
+// DATA STORAGE
+// -----------------------------------
+
+let students = JSON.parse(localStorage.getItem("students")) || [];
+let teachers = JSON.parse(localStorage.getItem("teachers")) || [];
+let fees = JSON.parse(localStorage.getItem("fees")) || [];
+let results = JSON.parse(localStorage.getItem("results")) || [];
+let attendance = JSON.parse(localStorage.getItem("attendance")) || {};
+
+function saveData() {
+    localStorage.setItem("students", JSON.stringify(students));
+    localStorage.setItem("teachers", JSON.stringify(teachers));
+    localStorage.setItem("fees", JSON.stringify(fees));
+    localStorage.setItem("results", JSON.stringify(results));
+    localStorage.setItem("attendance", JSON.stringify(attendance));
+}
+
+// -----------------------------------
+// NAVIGATION
+// -----------------------------------
+
+function showSection(id, button) {
+    document.querySelectorAll(".section").forEach(section => {
+        section.classList.remove("active");
+    });
+
+    document.getElementById(id).classList.add("active");
+
+    document.querySelectorAll(".sidebar button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    if (button) button.classList.add("active");
+
+    const titles = {
+        dashboard: "Dashboard",
+        students: "Student Management",
+        teachers: "Teacher Management",
+        attendance: "Attendance",
+        fees: "Fee Management",
+        results: "Exam Results"
+    };
+
+    document.getElementById("pageTitle").textContent = titles[id];
+
+    renderAll();
+}
+
+// -----------------------------------
+// STUDENTS
+// -----------------------------------
+
+document.getElementById("studentForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const roll = document.getElementById("studentRoll").value.trim();
+
+    if (students.some(s => s.roll.toLowerCase() === roll.toLowerCase())) {
+        alert("This roll number already exists!");
+        return;
+    }
+
+    students.push({
+        id: Date.now(),
+        name: document.getElementById("studentName").value.trim(),
+        roll: roll,
+        className: document.getElementById("studentClass").value,
+        phone: document.getElementById("studentPhone").value.trim()
+    });
+
+    saveData();
+    this.reset();
+    renderAll();
+
+    alert("Student added successfully!");
+});
+
+function renderStudents() {
+    const search = document.getElementById("studentSearch").value.toLowerCase();
+
+    const filtered = students.filter(s =>
+        s.name.toLowerCase().includes(search) ||
+        s.roll.toLowerCase().includes(search) ||
+        s.className.toLowerCase().includes(search)
+    );
+
+    document.getElementById("studentsTable").innerHTML =
+        filtered.map(s => `
+            <tr>
+                <td>${escapeHTML(s.name)}</td>
+                <td>${escapeHTML(s.roll)}</td>
+                <td>${escapeHTML(s.className)}</td>
+                <td>${escapeHTML(s.phone)}</td>
+                <td>
+                    <button class="danger" onclick="deleteStudent(${s.id})">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `).join("") || emptyRow(5);
+}
+
+function deleteStudent(id) {
+    if (!confirm("Delete this student?")) return;
+
+    students = students.filter(s => s.id !== id);
+
+    saveData();
+    renderAll();
+}
+
+// -----------------------------------
+// TEACHERS
+// -----------------------------------
+
+document.getElementById("teacherForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    teachers.push({
+        id: Date.now(),
+        name: document.getElementById("teacherName").value.trim(),
+        subject: document.getElementById("teacherSubject").value.trim(),
+        phone: document.getElementById("teacherPhone").value.trim(),
+        email: document.getElementById("teacherEmail").value.trim()
+    });
+
+    saveData();
+    this.reset();
+    renderAll();
+
+    alert("Teacher added successfully!");
+});
+
+function renderTeachers() {
+    document.getElementById("teachersTable").innerHTML =
+        teachers.map(t => `
+            <tr>
+                <td>${escapeHTML(t.name)}</td>
+                <td>${escapeHTML(t.subject)}</td>
+                <td>${escapeHTML(t.phone)}</td>
+                <td>${escapeHTML(t.email)}</td>
+                <td>
+                    <button class="danger" onclick="deleteTeacher(${t.id})">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `).join("") || emptyRow(5);
+}
+
+function deleteTeacher(id) {
+    if (!confirm("Delete this teacher?")) return;
+
+    teachers = teachers.filter(t => t.id !== id);
+
+    saveData();
+    renderAll();
+}
+
+// -----------------------------------
+// ATTENDANCE
+// -----------------------------------
+
+document.getElementById("attendanceDate").value =
+    new Date().toISOString().slice(0, 10);
+
+function renderAttendance() {
+    const date = document.getElementById("attendanceDate").value;
+
+    const dayRecords = attendance[date] || {};
+
+    document.getElementById("attendanceTable").innerHTML =
+        students.map(s => {
+            const status = dayRecords[s.id] || "Present";
+
+            return `
+                <tr>
+                    <td>${escapeHTML(s.name)}</td>
+                    <td>${escapeHTML(s.className)}</td>
+                    <td>
+                        <select id="att_${s.id}">
+                            <option ${status === "Present" ? "selected" : ""}>
+                                Present
+                            </option>
+                            <option ${status === "Absent" ? "selected" : ""}>
+                                Absent
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            `;
+        }).join("") || emptyRow(3);
+}
+
+function saveAttendance() {
+    const date = document.getElementById("attendanceDate").value;
+
+    if (!date) {
+        alert("Please select a date.");
+        return;
+    }
+
+    attendance[date] = {};
+
+    students.forEach(s => {
+        const select = document.getElementById("att_" + s.id);
+
+        if (select) {
+            attendance[date][s.id] = select.value;
+        }
+    });
+
+    saveData();
+    renderAll();
+
+    alert("Attendance saved successfully!");
+}
+
+// -----------------------------------
+// FEES
+// -----------------------------------
+
+document.getElementById("feeForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const studentId = Number(document.getElementById("feeStudent").value);
+    const amount = Number(document.getElementById("feeAmount").value);
+
+    const student = students.find(s => s.id === studentId);
+
+    if (!student || amount <= 0) {
+        alert("Please select a student and enter a valid amount.");
+        return;
+    }
+
+    fees.push({
+        id: Date.now(),
+        studentId: studentId,
+        studentName: student.name,
+        amount: amount,
+        date: new Date().toLocaleDateString()
+    });
+
+    saveData();
+    this.reset();
+    renderAll();
+
+    alert("Fee payment recorded!");
+});
+
+function renderFees() {
+    document.getElementById("feesTable").innerHTML =
+        fees.map(f => `
+            <tr>
+                <td>${escapeHTML(f.studentName)}</td>
+                <td>₹${f.amount.toLocaleString("en-IN")}</td>
+                <td>${escapeHTML(f.date)}</td>
+                <td>
+                    <button class="danger" onclick="deleteFee(${f.id})">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `).join("") || emptyRow(4);
+}
+
+function deleteFee(id) {
+    if (!confirm("Delete this payment record?")) return;
+
+    fees = fees.filter(f => f.id !== id);
+
+    saveData();
+    renderAll();
+}
+
+// -----------------------------------
+// RESULTS
+// -----------------------------------
+
+document.getElementById("resultForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const studentId = Number(document.getElementById("resultStudent").value);
+    const subject = document.getElementById("resultSubject").value.trim();
+    const marks = Number(document.getElementById("resultMarks").value);
+
+    const student = students.find(s => s.id === studentId);
+
+    if (!student || marks < 0 || marks > 100) {
+        alert("Please select a student and enter marks between 0 and 100.");
+        return;
+    }
+
+    results.push({
+        id: Date.now(),
+        studentId: studentId,
+        studentName: student.name,
+        subject: subject,
+        marks: marks
+    });
+
+    saveData();
+    this.reset();
+    renderAll();
+
+    alert("Result saved successfully!");
+});
+
+function getGrade(marks) {
+    if (marks >= 90) return "A+";
+    if (marks >= 80) return "A";
+    if (marks >= 70) return "B";
+    if (marks >= 60) return "C";
+    if (marks >= 40) return "D";
+    return "F";
+}
+
+function renderResults() {
+    document.getElementById("resultsTable").innerHTML =
+        results.map(r => `
+            <tr>
+                <td>${escapeHTML(r.studentName)}</td>
+                <td>${escapeHTML(r.subject)}</td>
+                <td>${r.marks}/100</td>
+                <td><span class="badge">${getGrade(r.marks)}</span></td>
+                <td>
+                    <button class="danger" onclick="deleteResult(${r.id})">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `).join("") || emptyRow(5);
+}
+
+function deleteResult(id) {
+    if (!confirm("Delete this result?")) return;
+
+    results = results.filter(r => r.id !== id);
+
+    saveData();
+    renderAll();
+}
+
+// -----------------------------------
+// DASHBOARD
+// -----------------------------------
+
+function renderDashboard() {
+    document.getElementById("totalStudents").textContent = students.length;
+
+    document.getElementById("totalTeachers").textContent = teachers.length;
+
+    const today = new Date().toISOString().slice(0, 10);
+    const todayAttendance = attendance[today] || {};
+
+    const present = Object.values(todayAttendance)
+        .filter(status => status === "Present").length;
+
+    document.getElementById("totalPresent").textContent = present;
+
+    const totalFees = fees.reduce((sum, f) => sum + f.amount, 0);
+
+    document.getElementById("totalFees").textContent =
+        "₹" + totalFees.toLocaleString("en-IN");
+
+    document.getElementById("recentStudents").innerHTML =
+        students.slice(-5).reverse().map(s => `
+            <tr>
+                <td>${escapeHTML(s.name)}</td>
+                <td>${escapeHTML(s.className)}</td>
+                <td>${escapeHTML(s.roll)}</td>
+            </tr>
+        `).join("") || emptyRow(3);
+}
+
+// -----------------------------------
+// COMMON FUNCTIONS
+// -----------------------------------
+
+function updateStudentDropdowns() {
+    const options = students.map(s => `
+        <option value="${s.id}">
+            ${escapeHTML(s.name)} (${escapeHTML(s.className)})
+        </option>
+    `).join("");
+
+    document.getElementById("feeStudent").innerHTML =
+        '<option value="">Select Student</option>' + options;
+
+    document.getElementById("resultStudent").innerHTML =
+        '<option value="">Select Student</option>' + options;
+}
+
+function emptyRow(columns) {
+    return `<tr><td colspan="${columns}" class="empty">No records found</td></tr>`;
+}
+
+// Escape HTML so user-entered names are displayed safely.
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function renderAll() {
+    renderDashboard();
+    renderStudents();
+    renderTeachers();
+    renderAttendance();
+    renderFees();
+    renderResults();
+    updateStudentDropdowns();
+}
+
+// Initial load
+renderAll();
+</script>
+
+</body>
+</html>
